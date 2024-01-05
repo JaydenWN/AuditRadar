@@ -20,6 +20,7 @@ export default function Navbar(){
         active={index === active}
         label={item.label}
         description={item.description}
+        leftSection={item.leftSection}
         onClick={() => setActive(index)}
         >
         {item.children ? item.children.map((itemChild)=>(

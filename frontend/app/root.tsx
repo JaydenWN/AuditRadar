@@ -13,7 +13,7 @@ import '@mantine/core/styles.css'
 import { ColorSchemeScript, MantineProvider, AppShell, Burger, Group, Title, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Navbar from './components/ui/Navbar'
-import { FaMagnifyingGlass } from "react-icons/fa6/index.js";
+import { IoRadio } from "react-icons/io5/index.js";
 
 
 export const links: LinksFunction = () => [
@@ -45,7 +45,7 @@ export default function App() {
             padding="md"
           >
             <AppShell.Header>
-              <Stack h='100%' justify="center" p='lg'>
+              <Stack h='100%' p='lg'>
                 <Group justify="space-between"> 
                   <Burger
                     opened={opened}
@@ -54,7 +54,7 @@ export default function App() {
                     size="sm"
                   />
                   <Group justify="space-between" gap='xs'>
-                    <Title order={2}><FaMagnifyingGlass /></Title>
+                    <Title order={2}><IoRadio /></Title>
                     <Title>Audit Radar</Title>
                   </Group>
                 </Group>

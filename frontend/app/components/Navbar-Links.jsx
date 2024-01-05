@@ -1,17 +1,22 @@
+import { IoHome, IoSettingsSharp , IoCompassSharp, IoAddCircleSharp, IoWarningSharp} from "react-icons/io5/index.js";
+
 const navbarLinks = [
     {
         label : 'Home',
         description: 'Go to homepage',
-        url : '/'
+        url : '/',
+        leftSection : <IoHome />,
     },
     {
         label : 'Settings',
         description: 'Change user settings',
-        url : '/settings'
+        url : '/settings',
+        leftSection : <IoSettingsSharp />,
     },
     {
         label : 'My Spaces',
         url : '/settings',
+        leftSection : <IoCompassSharp />,
         children: [
             {
                 label : 'room name 1',
@@ -21,16 +26,18 @@ const navbarLinks = [
 
     },
     {
-        label : 'Create New Space'
+        label : 'Create New Space',
+        leftSection : <IoAddCircleSharp />
     },
     {   
-        label : 'View Issues',
+        label : 'View Findings',
+        leftSection : <IoWarningSharp />,
         children : [
             {
-                label : 'View Current Issues'
+                label : 'View Current Findings'
             },
             {   
-                label : 'View Resolved Issues'
+                label : 'View Resolved Findings'
             },
         ]
     }
