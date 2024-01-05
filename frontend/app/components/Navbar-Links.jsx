@@ -15,18 +15,18 @@ const navbarLinks = [
     },
     {
         label : 'My Spaces',
-        url : '/settings',
         leftSection : <IoCompassSharp />,
         children: [
             {
                 label : 'room name 1',
-                url : '/'
+                url : '/spaces/room name 1'
             }
         ]
 
     },
     {
         label : 'Create New Space',
+        url : 'spaces/new_space',
         leftSection : <IoAddCircleSharp />
     },
     {   
@@ -34,10 +34,12 @@ const navbarLinks = [
         leftSection : <IoWarningSharp />,
         children : [
             {
-                label : 'View Current Findings'
+                label : 'View Current Findings',
+                url : '/findings/current_findings'
             },
             {   
-                label : 'View Resolved Findings'
+                label : 'View Resolved Findings',
+                url : '/findings/resolved_findings'
             },
         ]
     }
