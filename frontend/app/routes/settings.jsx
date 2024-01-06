@@ -18,6 +18,8 @@ import {
 } from '@mantine/core'
 
 import styles from '../components/ui/styles/colorScheme.module.css'
+import classes from '../components/ui/styles/settings.module.css'
+
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { IoSunnySharp, IoMoonSharp } from "react-icons/io5/index.js";
@@ -59,13 +61,13 @@ export default function Settings(){
     },[color])
 
     return (
-        <Box component={Stack} m='md' >
+        <Box component={Stack} m={{xs: 'xs', sm: 'sm', md: 'md' }} >
 
-            <Paper shadow="sm" p="xl" withBorder>
+            <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder>
                 
-                    <Group >
-                    <Avatar variant="light" radius="xl" size="lg" src="" />
-                        <Stack gap='xs'>
+                    <Group className={classes.smCenter} >
+                    <Avatar variant="light" radius="xl" size="lg" src="" className={classes.avatar}/>
+                        <Stack gap='xs' className={classes.smCenter}>
                             <Title order={2}>User Settings for User</Title>
                             <Text size="sm">You can change your preferences here.</Text>
                         </Stack>
@@ -92,11 +94,11 @@ export default function Settings(){
             </Paper>
 
             <Paper shadow="sm" p="xl" withBorder>
-                <Stack gap='lg'>
+                <Stack gap='lg'  className={classes.smCenter}>
                         <Title order={2}>
                             Change Your Avatar
                         </Title>
-                    <Group>
+                    <Group  className={classes.smCenter}>
                         <Avatar variant="light" radius="xl" size="lg" src="" />
                         <FileInput
                             label="Upload Image"
@@ -110,14 +112,14 @@ export default function Settings(){
             {/*Needed to wait for computedColorScheme to return
             something other than undefined, otherwise run into
             hydration issues*/}
-            
+
             {color === undefined ? 
             <Skeleton height={101.09}/> 
             :
             <Paper shadow="sm" p="xl" withBorder>
-                <Group justify='space-between'>
+                <Group justify='space-between'  className={classes.smCenter}>
                 <Title order={2}>Toggle Theme Mode</Title>
-                <Switch
+                <Switch 
                 size='lg'
                 onLabel={sunIcon}
                 offLabel={moonIcon}

@@ -36,7 +36,7 @@ export default function App() {
         <MantineProvider>
 
           <AppShell
-            header={{ height: {base : 60, md: 80} }}
+            header={{ height: {base : 80, md: 80} }}
             navbar={{
               width: 250,
               breakpoint: 'sm',
@@ -54,7 +54,7 @@ export default function App() {
                     size="sm"
                   />
                   <Group justify="space-between" gap='xs'>
-                    <Title order={2}><IoRadio /></Title>
+                    <Title style={{display: 'flex'}}><IoRadio /></Title>
                     <Title>Audit Radar</Title>
                   </Group>
                 </Group>
