@@ -8,7 +8,8 @@ import {
   RingProgress,
   SimpleGrid,
   Card,
-  Image
+  Image,
+  Center
 } from "@mantine/core";
 
 
@@ -20,10 +21,12 @@ import Index_LatestFindings from '../components/ui/Index_LatestFindings'
 
 export default function Index() {
   return (
-    <Stack>
+    <Center>
+    <Stack maw={{base : '100%' , md: '60%'}}>
       <Index_Welcome/>
       <Index_CurrentFindings/>
       <Index_LatestFindings/>
     </Stack>
+    </Center>
   );
 }

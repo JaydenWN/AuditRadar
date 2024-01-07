@@ -9,6 +9,6 @@ export default function DateDisplay({style}){
         year : date.getFullYear()
     }
     return(
-        <Text size='xs' style={style}>{`${formatedDate.day}/${formatedDate.month}/${formatedDate.year}`}</Text>
+        <Text c='dimmed' size='xs' style={style}>{`${formatedDate.day}/${formatedDate.month}/${formatedDate.year}`}</Text>
     )
 }

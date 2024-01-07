@@ -12,7 +12,7 @@ export default function Index_LatestFindings(){
         <Paper shadow="sm" withBorder p="xl">
             <Stack>
                 <Title>Latest Findings</Title>
-                <SimpleGrid cols={{base: 1, sm : 2, lg : 3}} spacing="sm">
+                <SimpleGrid cols={{base: 1, sm : 2}} spacing="sm">
                 
                 <Index_LatestFindings_Card/>
                 <Index_LatestFindings_Card/>
