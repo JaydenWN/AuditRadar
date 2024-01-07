@@ -1,0 +1,6 @@
+.smCenter{
+    @media (max-width: $mantine-breakpoint-xs) {
+        flex-direction: column;
+        align-items: center;
+      }
+}

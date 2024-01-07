@@ -3,8 +3,12 @@ import { Link } from "@remix-run/react";
 import { NavLink as MantineNavLink } from "@mantine/core";
 import navbarLinks from '../Navbar-Links'
 import { useState } from "react";
+import { useLocation } from "@remix-run/react";
 
 export default function Navbar(){
+
+    const location = useLocation()
+    console.log(location.pathname)
 
 //https://mantine.dev/core/nav-link
     const [active, setActive] = useState(0);
@@ -17,7 +21,7 @@ export default function Navbar(){
         href={item.url}
         to={item.url}
         key={item.label}
-        active={index === active}
+        active={location.pathname === item.url ? true : false}
         label={item.label}
         description={item.description}
         leftSection={item.leftSection}
