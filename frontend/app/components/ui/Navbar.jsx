@@ -4,6 +4,7 @@ import { NavLink as MantineNavLink } from "@mantine/core";
 import navbarLinks from '../Navbar-Links'
 import { useState } from "react";
 import { useLocation } from "@remix-run/react";
+import NewSpaceButton from "./New_Space_Button";
 
 export default function Navbar(){
 
@@ -19,7 +20,7 @@ export default function Navbar(){
       <MantineNavLink
         component={Link}
         href={item.url}
-        to={item.url}
+        to={item.url ? item.url : location.pathname}
         key={item.label}
         active={location.pathname === item.url ? true : false}
         label={item.label}
@@ -42,6 +43,7 @@ export default function Navbar(){
     return(
         <AppShell.Navbar >
             {items}
+            <NewSpaceButton/>
         </AppShell.Navbar>
     )
 }

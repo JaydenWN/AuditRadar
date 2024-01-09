@@ -1,4 +1,6 @@
-import { IoHome, IoSettingsSharp , IoCompassSharp, IoAddCircleSharp, IoWarningSharp} from "react-icons/io5/index.js";
+import { IoHome, IoSettingsSharp , IoCompassSharp, IoWarningSharp} from "react-icons/io5/index.js";
+import NewSpaceButton from './ui/New_Space_Button'
+
 
 const navbarLinks = [
     {
@@ -24,11 +26,6 @@ const navbarLinks = [
         ]
 
     },
-    {
-        label : 'Create New Space',
-        url : 'spaces/new_space',
-        leftSection : <IoAddCircleSharp />
-    },
     {   
         label : 'View Findings',
         leftSection : <IoWarningSharp />,
@@ -42,7 +39,8 @@ const navbarLinks = [
                 url : '/findings/resolved_findings'
             },
         ]
-    }
+    },
+   
 ]
 
 export default navbarLinks
