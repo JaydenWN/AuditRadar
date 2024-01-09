@@ -16,6 +16,7 @@ import {
 import Index_Welcome from '../components/ui/Index_Welcome'
 import Index_CurrentFindings from '../components/ui/Index_CurrentFindings'
 import Index_LatestFindings from '../components/ui/Index_LatestFindings'
+import NewSpaceButton from "../components/ui/New_Space_Button";
 
 
 
@@ -26,6 +27,7 @@ export default function Index() {
       <Index_Welcome/>
       <Index_CurrentFindings/>
       <Index_LatestFindings/>
+      <NewSpaceButton/>
     </Stack>
     </Center>
   );
