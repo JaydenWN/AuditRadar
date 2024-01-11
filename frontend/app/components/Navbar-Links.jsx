@@ -1,6 +1,4 @@
-import { IoHome, IoSettingsSharp , IoCompassSharp, IoWarningSharp} from "react-icons/io5/index.js";
-import NewSpaceButton from './ui/New_Space_Button'
-
+import { IoHome, IoSettingsSharp , IoCompassSharp, IoWarningSharp, IoCameraSharp} from "react-icons/io5/index.js";
 
 const navbarLinks = [
     {
@@ -40,6 +38,10 @@ const navbarLinks = [
             },
         ]
     },
+    {
+        label: 'Submit New Finding',
+        leftSection: <IoCameraSharp />
+    }
    
 ]
 
