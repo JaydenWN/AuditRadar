@@ -9,6 +9,7 @@ import {
     Button
   } from "@mantine/core";
   import DateDisplay from '../DateDisplay'
+import { NavLink } from "@remix-run/react";
 
 export default function Index_Welcome(){
     return (
@@ -30,7 +31,9 @@ export default function Index_Welcome(){
             <Button 
               maw='fit-content'
               variant="default"
-              rightSection='+'>Create New Finding</Button>
+              rightSection='+'
+              component={NavLink}
+              to='/findings/new_finding'>Create New Finding</Button>
           </Stack>
             
           </Flex>
