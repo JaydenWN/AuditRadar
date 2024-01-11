@@ -12,9 +12,12 @@ export default function Navbar(){
     const location = useLocation()
     console.log(location.pathname)
 
-    function handleNavClick(index){
+    function handleNavClick(index, item){
         setActive(index)
-        handlers.close()
+        if(!item.children){
+            handlers.close()
+        }
+        
     }
 //https://mantine.dev/core/nav-link
     const [active, setActive] = useState(0);
@@ -31,7 +34,7 @@ export default function Navbar(){
         label={item.label}
         description={item.description}
         leftSection={item.leftSection}
-        onClick={() => handleNavClick(index)}
+        onClick={() => handleNavClick(index, item)}
         >
         {item.children ? item.children.map((itemChild)=>(
             <MantineNavLink
@@ -41,6 +44,7 @@ export default function Navbar(){
             key={itemChild.label}
             label={itemChild.label}
             description={itemChild.description}
+            onClick={() => handleNavClick(item)}
             />)) : ''}
         </MantineNavLink>
     ));
