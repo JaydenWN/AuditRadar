@@ -40,7 +40,8 @@ const navbarLinks = [
     },
     {
         label: 'Submit New Finding',
-        leftSection: <IoCameraSharp />
+        leftSection: <IoCameraSharp />,
+        url: '/findings/new_finding'
     }
    
 ]
