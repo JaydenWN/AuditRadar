@@ -1,4 +1,5 @@
-import { AppShell, Box} from "@mantine/core"
+import { AppShell} from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks";
 import { Link } from "@remix-run/react";
 import { NavLink as MantineNavLink } from "@mantine/core";
 import navbarLinks from '../Navbar-Links'
@@ -7,10 +8,17 @@ import { useLocation } from "@remix-run/react";
 import NewSpaceButton from "./New_Space_Button";
 
 export default function Navbar(){
-
+    const [handlers] = useDisclosure();
     const location = useLocation()
     console.log(location.pathname)
 
+    function handleNavClick(index, item){
+        setActive(index)
+        if(!item.children){
+            handlers.close()
+        }
+        
+    }
 //https://mantine.dev/core/nav-link
     const [active, setActive] = useState(0);
 
@@ -26,7 +34,7 @@ export default function Navbar(){
         label={item.label}
         description={item.description}
         leftSection={item.leftSection}
-        onClick={() => setActive(index)}
+        onClick={() => handleNavClick(index, item)}
         >
         {item.children ? item.children.map((itemChild)=>(
             <MantineNavLink
@@ -36,6 +44,7 @@ export default function Navbar(){
             key={itemChild.label}
             label={itemChild.label}
             description={itemChild.description}
+            onClick={() => handleNavClick(item)}
             />)) : ''}
         </MantineNavLink>
     ));
