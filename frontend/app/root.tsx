@@ -10,8 +10,10 @@ import {
 } from "@remix-run/react";
 
 import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider, AppShell, Burger, Group, Title, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Notifications } from "@mantine/notifications";
 import Navbar from './components/ui/Navbar'
 import { IoRadio } from "react-icons/io5/index.js";
 
@@ -34,7 +36,7 @@ export default function App() {
       </head>
       <body>
         <MantineProvider>
-
+        <Notifications />
           <AppShell
             header={{ height: {base : 80, md: 80} }}
             navbar={{
