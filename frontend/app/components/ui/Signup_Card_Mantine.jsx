@@ -1,8 +1,10 @@
 import { useForm } from '@mantine/form';
 import {Stack, Fieldset, TextInput, PasswordInput, Group, Button} from '@mantine/core';
 import { useSubmit } from '@remix-run/react';
+import {notifications} from '@mantine/notifications'
+import { useEffect } from 'react';
 
-export default function SignupCardMantine({changeCard}){
+export default function SignupCardMantine({errorType, errorCode}){
     
     const form = useForm({
         initialValues: {
@@ -18,18 +20,27 @@ export default function SignupCardMantine({changeCard}){
         }
     })
 
+    //Problem using this is that it will only run once because error is the same change to useState
+    useEffect(()=>{
+        if(errorType === 'email' && errorCode === 'P2002'){
+            form.setErrors({email: 'Email must be unique. Someone has already signed up with that email.'})
+        }
+    },[errorType, errorCode])
+
+    
+
    const handleSubmit = useSubmit()
 
     return(
             <Stack>
                 <Fieldset legend="Signup">
-
                     <form 
                         action='/login' 
                         method='post'
                         onSubmit={form.onSubmit((values)=>{
-                            changeCard(false)
+                            
                             handleSubmit(values, {method: 'post'})
+                            
                         })}>
                 
                         <TextInput

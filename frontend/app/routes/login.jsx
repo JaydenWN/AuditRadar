@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LoginCard from '../components/ui/Login_Card'
-import { json, useActionData } from '@remix-run/react'
+import { json, redirect, useActionData } from '@remix-run/react'
 
 import{
     Group,
@@ -11,6 +11,8 @@ import SignupCard from '../components/ui/Signup_Card'
 
 import {prisma} from '../utils/db.server'
 import SignupCardMantine from '../components/ui/Signup_Card_Mantine'
+import { notifications } from '@mantine/notifications'
+import { Prisma } from '@prisma/client'
 
 export async function action({request}){
     const data = await request.formData()
@@ -21,21 +23,71 @@ export async function action({request}){
         password : data.get('password')
     }
 
-    const user = await prisma.user.create({
-        data: {
-          email: userInput.email,
-          username: userInput.username,
-          password : userInput.password
-        },
-      })
-    
-    console.log(`Added ${user} to the user table.`)
-    return null
+    console.log(userInput)
+   
+    return prisma.user
+        .create({
+            data: {
+                email: userInput.email,
+                username: userInput.username,
+                password: userInput.password
+            },
+        })
+        .then((user) => {
+            console.log(`Added ${userInput.username} to the user table.`);
+
+            const returnedResponseObj = {
+                cardState: false,
+                title: `Welcome ${user.username}`,
+                message: 'Your Account was successfully created. Please now sign-in with your credentials. Happy Auditing! 😊'
+            };
+
+            return returnedResponseObj;
+        })
+        .catch((e) => {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.log(e)
+                const returnedResponseObj = {
+                    cardState: true,
+                    errorTarget: e.meta?.target?.[0],
+                    errorCode: e.code,
+                    title: 'Account Creation Error!',
+                    message: 'There was a problem creating your account, please try again 😢'
+                }
+                return returnedResponseObj;
+            } else {
+                
+                console.error('Unhandled error during user creation:', e);
+                return null
+            }
+        });
 }
 
 export default function LoginPage(){
 
+    const actionData = useActionData()
+
     const [cardChanged, setCardChanged] = useState(false)
+
+    const [signUpErrorType, setSignUpErrorType] = useState('')
+    const [signUpErrorCode, setSignUpErrorCode] = useState('')
+
+    useEffect(()=>{
+        if(actionData !== undefined){
+        setCardChanged(actionData.cardState)
+            if(actionData?.errorCode){
+                setSignUpErrorType(actionData.errorTarget)
+                setSignUpErrorCode(actionData.errorCode)
+            }
+        
+        notifications.show({
+           title :  actionData.title,
+           message : actionData.message
+        })
+
+        }
+    },[actionData])
+   
     
     function handleCardChange(){
         setCardChanged(!cardChanged)
@@ -63,7 +115,9 @@ export default function LoginPage(){
     if(cardChanged){
         return(
             <>
-                <SignupCardMantine changeCard={setCardChanged} />
+                <SignupCardMantine 
+                    errorType={signUpErrorType}
+                    errorCode={signUpErrorCode} />
                 <Group pt='md' justify="flex-end">
                         <Text c='dimmed'>
                             Already have an account?
