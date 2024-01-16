@@ -2,10 +2,10 @@ import { useForm } from '@mantine/form';
 import {Stack, Fieldset, TextInput, PasswordInput, Group, Button} from '@mantine/core';
 import { useSubmit } from '@remix-run/react';
 import {notifications} from '@mantine/notifications'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function SignupCardMantine({errorType, errorCode}){
-    
+export default function SignupCardMantine({errorType, errorCode, actionData}){
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -20,16 +20,25 @@ export default function SignupCardMantine({errorType, errorCode}){
         }
     })
 
-    //Problem using this is that it will only run once because error is the same change to useState
+    //When actionData is gathered from '/login' it is passed to this component via props, then we can setErrors on our signup form.
     useEffect(()=>{
-        if(errorType === 'email' && errorCode === 'P2002'){
+        console.log(actionData)
+        if(actionData?.errorTarget === 'email' && actionData?.errorCode === 'P2002'){
             form.setErrors({email: 'Email must be unique. Someone has already signed up with that email.'})
         }
-    },[errorType, errorCode])
-
-    
+        
+        if(actionData?.errorTarget === 'username' && actionData?.errorCode === 'P2002'){
+            form.setErrors({username: 'Someone has already claimed that Username. Please choose a new one.'})
+        }
+    },[actionData])
 
    const handleSubmit = useSubmit()
+
+
+   async function handleFormSubmit(values){
+        const res = await handleSubmit(values, {method : 'post'})
+        console.log(res)
+   }
 
     return(
             <Stack>
@@ -39,7 +48,7 @@ export default function SignupCardMantine({errorType, errorCode}){
                         method='post'
                         onSubmit={form.onSubmit((values)=>{
                             
-                            handleSubmit(values, {method: 'post'})
+                            handleFormSubmit(values)
                             
                         })}>
                 

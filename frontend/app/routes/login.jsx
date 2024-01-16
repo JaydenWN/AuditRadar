@@ -46,17 +46,14 @@ export async function action({request}){
         })
         .catch((e) => {
             if (e instanceof Prisma.PrismaClientKnownRequestError) {
-                console.log(e)
+               
                 const returnedResponseObj = {
                     cardState: true,
                     errorTarget: e.meta?.target?.[0],
                     errorCode: e.code,
-                    title: 'Account Creation Error!',
-                    message: 'There was a problem creating your account, please try again 😢'
                 }
                 return returnedResponseObj;
             } else {
-                
                 console.error('Unhandled error during user creation:', e);
                 return null
             }
@@ -66,24 +63,19 @@ export async function action({request}){
 export default function LoginPage(){
 
     const actionData = useActionData()
-
     const [cardChanged, setCardChanged] = useState(false)
-
-    const [signUpErrorType, setSignUpErrorType] = useState('')
-    const [signUpErrorCode, setSignUpErrorCode] = useState('')
 
     useEffect(()=>{
         if(actionData !== undefined){
         setCardChanged(actionData.cardState)
-            if(actionData?.errorCode){
-                setSignUpErrorType(actionData.errorTarget)
-                setSignUpErrorCode(actionData.errorCode)
-            }
         
-        notifications.show({
-           title :  actionData.title,
-           message : actionData.message
-        })
+        if(actionData?.title){
+            notifications.show({
+                title :  actionData.title,
+                message : actionData.message
+             })
+        }
+        
 
         }
     },[actionData])
@@ -116,8 +108,7 @@ export default function LoginPage(){
         return(
             <>
                 <SignupCardMantine 
-                    errorType={signUpErrorType}
-                    errorCode={signUpErrorCode} />
+                    actionData={actionData}/>
                 <Group pt='md' justify="flex-end">
                         <Text c='dimmed'>
                             Already have an account?
