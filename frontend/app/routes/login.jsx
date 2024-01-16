@@ -7,7 +7,6 @@ import{
     Text,
     Button
 }from '@mantine/core'
-import SignupCard from '../components/ui/Signup_Card'
 
 import {prisma} from '../utils/db.server'
 import SignupCardMantine from '../components/ui/Signup_Card_Mantine'
