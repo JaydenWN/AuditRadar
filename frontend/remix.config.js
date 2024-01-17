@@ -6,4 +6,5 @@ export default {
   // publicPath: "/build/",
   // serverBuildPath: "build/index.js",
   postcss: true,
+  browserNodeBuiltinsPolyfill: { modules: { crypto: true } }
 };

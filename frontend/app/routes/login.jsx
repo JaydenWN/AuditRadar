@@ -12,51 +12,59 @@ import {prisma} from '../utils/db.server'
 import SignupCardMantine from '../components/ui/Signup_Card_Mantine'
 import { notifications } from '@mantine/notifications'
 import { Prisma } from '@prisma/client'
+import bcrypt from "bcryptjs";
 
 export async function action({request}){
+
     const data = await request.formData()
 
-    const userInput = {
-        email : data.get('email'),
-        username : data.get('username'),
-        password : data.get('password')
-    }
+    const cardType = data.get('cardType')
+//Handles sign-up request
+    if(cardType === 'sign-up'){
+        const hashedPassword = await bcrypt.hash(data.get('password'), 10)
 
-    console.log(userInput)
-   
-    return prisma.user
-        .create({
-            data: {
-                email: userInput.email,
-                username: userInput.username,
-                password: userInput.password
-            },
-        })
-        .then((user) => {
-            console.log(`Added ${userInput.username} to the user table.`);
+        const userInput = {
+            email : data.get('email'),
+            username : data.get('username'),
+            password : hashedPassword
+        }
+    
+        return prisma.user
+            .create({
+                data: {
+                    email: userInput.email,
+                    username: userInput.username,
+                    password: userInput.password
+                },
+            })
+            .then((user) => {
+                console.log(`Added ${userInput.username} to the user table.`);
 
-            const returnedResponseObj = {
-                cardState: false,
-                title: `Welcome ${user.username}`,
-                message: 'Your Account was successfully created. Please now sign-in with your credentials. Happy Auditing! 😊'
-            };
-
-            return returnedResponseObj;
-        })
-        .catch((e) => {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
-               
                 const returnedResponseObj = {
-                    cardState: true,
-                    errorTarget: e.meta?.target?.[0],
-                    errorCode: e.code,
-                }
+                    cardState: false,
+                    title: `Welcome ${user.username}`,
+                    message: 'Your Account was successfully created. Please now sign-in with your credentials. Happy Auditing! 😊'
+                };
+
                 return returnedResponseObj;
-            } else {
-                console.error('Unhandled error during user creation:', e);
-                return null
-            }
-        });
+            })
+            .catch((e) => {
+                if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                
+                    const returnedResponseObj = {
+                        cardState: true,
+                        errorTarget: e.meta?.target?.[0],
+                        errorCode: e.code,
+                    }
+                    return returnedResponseObj;
+                } else {
+                    console.error('Unhandled error during user creation:', e);
+                    return null
+                }
+            });
+    }
+    //Handles Login request
+    
 }
 
 export default function LoginPage(){
