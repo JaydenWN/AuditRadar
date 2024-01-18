@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import LoginCard from '../components/ui/Login_Card'
-import { json, redirect, useActionData } from '@remix-run/react'
+import { json, useActionData } from '@remix-run/react'
+import { redirect } from '@remix-run/node'
 
 import{
     Group,
@@ -13,6 +14,7 @@ import SignupCardMantine from '../components/ui/Signup_Card_Mantine'
 import { notifications } from '@mantine/notifications'
 import { Prisma } from '@prisma/client'
 import bcrypt from "bcryptjs";
+import { getSession, commitSession, destroySession } from '../utils/session.server'
 
 export async function action({request}){
 
@@ -64,7 +66,59 @@ export async function action({request}){
             });
     }
     //Handles Login request
-    
+    if(cardType === 'sign-in'){
+        
+        const userInput = {
+            email : data.get('email'),
+            password : data.get('password')
+        }
+
+        try{
+           const user = await prisma.user.findUnique({
+                where : {
+                    email : userInput.email
+                }
+            })
+            
+
+            if(user){
+                const dcryptPass = await bcrypt.compare(userInput.password, user.password)
+                if(dcryptPass){
+                    //log in successful
+                    const session = await getSession(request.headers.get('Cookie'))
+
+                    session.set('UserId', user.username)
+                    return redirect('/',{
+                        headers: {
+                            'Set-Cookie' : await commitSession(session, {
+                                maxAge: 60 * 60 * 24 * 7 // 7 days,
+                            })
+                        }
+                    })
+
+                }else{
+                    //Wrong password
+                    const returnedResponseObj={
+                        cardState: false,
+                        title : 'Wrong Email or Password.',
+                        message: 'Please try again'
+                    }
+                    return returnedResponseObj
+                }
+            }else{
+                //wrong email
+                const returnedResponseObj={
+                    cardState: false,
+                    title : 'Wrong Email or Password',
+                    message: 'Please try again'
+                }
+                return returnedResponseObj
+            }
+        }catch(e){
+            console.log(e)
+        }   
+    }
+    return null
 }
 
 export default function LoginPage(){
@@ -73,6 +127,7 @@ export default function LoginPage(){
     const [cardChanged, setCardChanged] = useState(false)
 
     useEffect(()=>{
+        
         if(actionData !== undefined){
         setCardChanged(actionData.cardState)
         
