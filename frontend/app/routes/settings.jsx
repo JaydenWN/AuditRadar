@@ -24,7 +24,11 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { IoSunnySharp, IoMoonSharp } from "react-icons/io5/index.js";
 import cx from 'clsx'
+import { requireUserId } from '../utils/session.server';
 
+export async function loader({request}){
+  return await requireUserId(request)
+}
 export default function Settings(){
     const [visible, { toggle }] = useDisclosure(false);
     const theme = useMantineTheme();

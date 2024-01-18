@@ -1,6 +1,11 @@
 import {Group, Paper, SimpleGrid, Text, Title} from '@mantine/core'
 
 import Spaces_Card from '../components/ui/Spaces_Card'
+import { requireUserId } from '../utils/session.server';
+
+export async function loader({request}){
+  return await requireUserId(request)
+}
 export default function Room(){
     return(
         <Paper withBorder p='lg'>

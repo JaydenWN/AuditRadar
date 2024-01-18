@@ -22,6 +22,7 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
+
 export default function App() {
   const [opened, { toggle }] = useDisclosure();
 

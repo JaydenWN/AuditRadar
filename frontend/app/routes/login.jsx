@@ -14,7 +14,7 @@ import SignupCardMantine from '../components/ui/Signup_Card_Mantine'
 import { notifications } from '@mantine/notifications'
 import { Prisma } from '@prisma/client'
 import bcrypt from "bcryptjs";
-import { getSession, commitSession, destroySession } from '../utils/session.server'
+import { getSession, commitSession, requireUserId } from '../utils/session.server'
 
 export async function action({request}){
 
@@ -119,6 +119,11 @@ export async function action({request}){
         }   
     }
     return null
+}
+
+export async function loader({request}){
+   await requireUserId(request)
+   return null
 }
 
 export default function LoginPage(){
