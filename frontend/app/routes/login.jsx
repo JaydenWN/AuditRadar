@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import LoginCard from '../components/ui/Login_Card'
-import { json, useActionData } from '@remix-run/react'
+import { useActionData } from '@remix-run/react'
 import { redirect } from '@remix-run/node'
 
 import{
     Group,
     Text,
-    Button
+    Button,
+    Stack,
+    Paper
 }from '@mantine/core'
 
 import {prisma} from '../utils/db.server'
@@ -88,6 +90,7 @@ export async function action({request}){
                     const session = await getSession(request.headers.get('Cookie'))
 
                     session.set('UserId', user.username)
+
                     return redirect('/',{
                         headers: {
                             'Set-Cookie' : await commitSession(session, {
@@ -132,7 +135,7 @@ export default function LoginPage(){
     const [cardChanged, setCardChanged] = useState(false)
 
     useEffect(()=>{
-        
+
         if(actionData !== undefined){
         setCardChanged(actionData.cardState)
         
@@ -149,12 +152,24 @@ export default function LoginPage(){
    
     
     function handleCardChange(){
+        
         setCardChanged(!cardChanged)
+        
     }
 
     if(!cardChanged){
         return(
             <>
+            <Stack ml={{'sm': -250}} align='center' gap='xl' py='md'>
+            <Paper>
+            <Text size='xl' fw='600'>
+                Looks like you are not signed in.
+            </Text>
+            <Text size='lg' fw='400'>
+                 Please Log in or sign up to continue.
+            </Text>
+            </Paper>
+            
                 <LoginCard/>
                 <Group pt='md' justify="flex-end">
                         <Text c='dimmed'>
@@ -167,6 +182,7 @@ export default function LoginPage(){
                                 Sign up
                         </Button>
                 </Group>
+                </Stack>
             </>
         )
     }
@@ -174,6 +190,15 @@ export default function LoginPage(){
     if(cardChanged){
         return(
             <>
+            <Stack ml={{'sm': -250}} align='center' gap='xl' py='md'>
+            <Paper>
+            <Text size='xl' fw='600'>
+                Looks like you are not signed in.
+            </Text>
+            <Text size='lg' fw='400'>
+                 Please Log in or sign up to continue.
+            </Text>
+            </Paper>
                 <SignupCardMantine 
                     actionData={actionData}/>
                 <Group pt='md' justify="flex-end">
@@ -187,6 +212,7 @@ export default function LoginPage(){
                                 Sign in
                         </Button>
                 </Group>
+                </Stack>
             </>
         )
     }

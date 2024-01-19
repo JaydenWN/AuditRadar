@@ -15,6 +15,7 @@ import {
     useMantineColorScheme,
     useComputedColorScheme,
     Skeleton,
+    Button
 } from '@mantine/core'
 
 import styles from '../components/ui/styles/colorScheme.module.css'
@@ -25,6 +26,7 @@ import { useEffect, useState } from 'react';
 import { IoSunnySharp, IoMoonSharp } from "react-icons/io5/index.js";
 import cx from 'clsx'
 import { requireUserId } from '../utils/session.server';
+import { Form } from '@remix-run/react';
 
 export async function loader({request}){
   return await requireUserId(request)
@@ -58,10 +60,7 @@ export default function Settings(){
     }
 
     useEffect(()=>{
-        
         setColor(computedColorScheme === 'light' ? false : true)
-        console.log(color)
-        
     },[color])
 
     return (
@@ -75,6 +74,18 @@ export default function Settings(){
                             <Title order={2}>User Settings for User</Title>
                             <Text size="sm">You can change your preferences here.</Text>
                         </Stack>
+                    </Group>
+                
+            </Paper>
+
+            <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder>
+                
+                    <Group className={classes.smCenter} align='center' justify='space-between' >
+                        
+                            <Title order={2}>Logout</Title>
+                            <Form action='/logout' method='post'>
+                                <Button variant='default' type='submit'>Sign me out</Button>
+                            </Form>
                     </Group>
                 
             </Paper>

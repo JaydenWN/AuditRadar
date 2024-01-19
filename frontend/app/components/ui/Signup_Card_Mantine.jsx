@@ -43,7 +43,7 @@ export default function SignupCardMantine({errorType, errorCode, actionData}){
    }
 
     return(
-            <Stack>
+            <Stack w={{base: '100%', sm: '50%', lg: '30%'}}>
                 <Fieldset legend="Signup">
                     <form 
                         action='/login' 

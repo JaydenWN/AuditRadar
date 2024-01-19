@@ -10,7 +10,6 @@ import { useForm } from "@mantine/form";
 import { useSubmit } from "@remix-run/react";
 
 
-
 export default function LoginCard(){
     
     const form = useForm({
@@ -27,7 +26,7 @@ export default function LoginCard(){
        }
 
     return(
-            <Stack>
+            <Stack w={{base: '100%', sm: '50%', lg: '30%'}} >
                 <form 
                     action='/login' 
                     method='post'
