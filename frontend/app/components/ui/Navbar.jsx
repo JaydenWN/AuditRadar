@@ -4,13 +4,13 @@ import { Link } from "@remix-run/react";
 import { NavLink as MantineNavLink } from "@mantine/core";
 import navbarLinks from '../Navbar-Links'
 import { useState } from "react";
-import { useLocation } from "@remix-run/react";
+import { useLocation, useLoaderData } from "@remix-run/react";
 import NewSpaceButton from "./New_Space_Button";
+
 
 export default function Navbar(){
     const [handlers] = useDisclosure();
     const location = useLocation()
-    console.log(location.pathname)
 
     function handleNavClick(index, item){
         setActive(index)
@@ -48,11 +48,16 @@ export default function Navbar(){
             />)) : ''}
         </MantineNavLink>
     ));
-  
-    return(
-        <AppShell.Navbar >
-            {items}
-            <NewSpaceButton/>
-        </AppShell.Navbar>
-    )
+
+        return(
+            <>
+            <AppShell.Navbar >
+                {items}
+                <NewSpaceButton/>
+            </AppShell.Navbar>
+            </>
+            
+        )
+ 
+    
 }

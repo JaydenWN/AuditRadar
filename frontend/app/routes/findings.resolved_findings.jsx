@@ -12,7 +12,11 @@ import {
 } from '@mantine/core'
 
 import Findings_Card from '../components/ui/Findings_Card';
+import { requireUserId } from '../utils/session.server';
 
+export async function loader({request}){
+  return await requireUserId(request)
+}
 export default function ResolvedFindings(){
 
     return(

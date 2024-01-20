@@ -12,6 +12,11 @@ import {Paper,
 
 import NewFindingRating from '../components/ui/Findings_NewFindingRating'
 import FindingDropZone from '../components/ui/Findings_FindingDropzone'
+import { requireUserId } from '../utils/session.server';
+
+export async function loader({request}){
+  return await requireUserId(request)
+}
 
 export default function NewFinding(){
     const theme = useMantineTheme()

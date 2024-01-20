@@ -7,22 +7,33 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 
 import '@mantine/core/styles.css'
+import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider, AppShell, Burger, Group, Title, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Notifications } from "@mantine/notifications";
 import Navbar from './components/ui/Navbar'
 import { IoRadio } from "react-icons/io5/index.js";
-
+import { getSession } from "./utils/session.server";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-export default function App() {
-  const [opened, { toggle }] = useDisclosure();
+export async function loader({request}){
+  //If user is logged in then show navbar ui otherwise show nothing
+  const session = await getSession(request.headers.get('Cookie'))
+  console.log(session.has('UserId'))
+  return session.has('UserId')
+}
 
+
+export default function App() {
+  const [opened, { toggle }] = useDisclosure()
+  const loaderData = useLoaderData()
   return (
     <html lang="en">
       <head>
@@ -34,7 +45,7 @@ export default function App() {
       </head>
       <body>
         <MantineProvider>
-
+        <Notifications />
           <AppShell
             header={{ height: {base : 80, md: 80} }}
             navbar={{
@@ -47,12 +58,13 @@ export default function App() {
             <AppShell.Header>
               <Stack h='100%' p='lg'>
                 <Group justify="space-between"> 
-                  <Burger
+                {loaderData?  <Burger
                     opened={opened}
                     onClick={toggle}
                     hiddenFrom="sm"
                     size="sm"
-                  />
+                  /> 
+                  : ''}                
                   <Group justify="space-between" gap='xs'>
                     <Title style={{display: 'flex'}}><IoRadio /></Title>
                     <Title>Audit Radar</Title>
@@ -60,15 +72,12 @@ export default function App() {
                 </Group>
               </Stack>
             </AppShell.Header>
-            
-            <Navbar/>
-
+            {loaderData?  <Navbar/> : ''}
             <AppShell.Main >
               <Outlet />
             </AppShell.Main>
 
           </AppShell>
-
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
