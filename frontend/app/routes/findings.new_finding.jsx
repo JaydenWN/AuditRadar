@@ -58,7 +58,7 @@ export async function action({request}){
             spaceId: space.id
         }
     }).catch((e) => {
-        //to do handle if title is not unique err handling
+        
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
             const returnedResponseObj = {
                 errorTarget: e.meta?.target?.[0],
@@ -72,8 +72,8 @@ export async function action({request}){
         }
     });
 
-    console.log({...createdFindidng, spaceName : space.title})
-
+    
+    
     return {...createdFindidng, spaceName : space.title}
    
 }
@@ -85,17 +85,6 @@ export default function NewFinding(){
     const handleSubmit = useSubmit()
     
     const [rating, setRating] = useState(0)
-
-    useEffect(()=>{
-        actionData?
-        notifications.show({
-            title : 'Created Finding',
-            message: `Added Finding: ${actionData.title}, to the space ${actionData.spaceName}, with the rating of ${actionData.rating}.`,
-            autoClose : 10000,
-            color : "lime"
-        }): null
-    },[actionData])
-        
 
     const form = useForm({
         initialValues: {
@@ -112,6 +101,21 @@ export default function NewFinding(){
             description: (value) => (value? null : 'Please give the finding a description'),
         }
     })
+
+    useEffect(()=>{
+        actionData?.title?
+        notifications.show({
+            title : 'Created Finding',
+            message: `Added Finding: ${actionData.title}, to the space ${actionData.spaceName}, with the rating of ${actionData.rating}.`,
+            autoClose : 10000,
+            color : "lime"
+        }): null
+        
+
+        actionData?.errorCode ?
+        form.setErrors({title : 'Finding Title already in use.'}) : null
+        
+    },[actionData])
   
     return (
         <Stack gap='lg'>
@@ -129,7 +133,7 @@ export default function NewFinding(){
             onSubmit={form.onSubmit((values)=>{
                 const formValues = {...values, rating : rating}
                 handleSubmit(formValues, {method : 'post', action : '/findings/new_finding'})
-                form.reset()
+                
             })}>
 
             <Paper shadow='sm' withBorder p='lg'>
