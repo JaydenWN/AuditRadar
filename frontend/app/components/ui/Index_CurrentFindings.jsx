@@ -7,7 +7,7 @@ import {
   } from "@mantine/core";
 
 
-export default function Index_CurrentFindings(){
+export default function Index_CurrentFindings({findings, spaces}){
     return(
       <Paper shadow="sm" withBorder p="xl">
         <Group justify="center">
@@ -19,11 +19,14 @@ export default function Index_CurrentFindings(){
               Hover / Press sections to see tooltips
             </Text>
           }
-          sections={[
-            { value: 40, color: 'cyan', tooltip: 'Room' },
-            { value: 25, color: 'orange', tooltip: 'Room 2' },
-            { value: 15, color: 'grape', tooltip: 'Room 3' },
-          ]}
+          sections={
+           []
+          //   [
+          //   { value: 40, color: 'cyan', tooltip: 'Room' },
+          //   { value: 25, color: 'orange', tooltip: 'Room 2' },
+          //   { value: 15, color: 'grape', tooltip: 'Room 3' },
+          // ]
+        }
         />
         <Title order={2}>
           Your Current Findings

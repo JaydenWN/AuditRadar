@@ -11,8 +11,38 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  username String @unique
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  username String    @unique
   password String
+  avatar   String?
+  findings Finding[]
+  spaces   Space[]
+}
+
+model Finding {
+  id           Int       @id @unique @default(autoincrement())
+  title        String
+  description  String?
+  image        String?
+  rating       Int
+  resolved     Boolean
+  resolvedDate DateTime?
+  User         User?     @relation(fields: [userId], references: [id])
+  userId       Int?
+  space        Space?    @relation(fields: [spaceId], references: [id])
+  spaceId      Int?
+
+  @@unique([title, spaceId])
+}
+
+model Space {
+  id      Int       @id @unique @default(autoincrement())
+  title   String
+  image   String?
+  Finding Finding[]
+  User    User?     @relation(fields: [userId], references: [id])
+  userId  Int?
+
+  @@unique([title, userId])
 }

@@ -8,10 +8,9 @@ import {
     Flex,
     Button
   } from "@mantine/core";
-  import DateDisplay from '../DateDisplay'
 import { NavLink } from "@remix-run/react";
 
-export default function Index_Welcome(){
+export default function Index_Welcome({username, avatar}){
     return (
         <Paper shadow="sm" withBorder p={{base: 'lg', md : 'lg'}}>
           <Flex 
@@ -20,10 +19,10 @@ export default function Index_Welcome(){
             gap='lg'
             direction={{base: 'column', sm: 'row'}}
           >
-            <Avatar size='xl'/>
+            <Avatar src={avatar} size='xl'/>
           <Stack>
             <Group>
-              <Title order={2}>Hello again Username!</Title>
+              <Title order={2}>Hello again {username}!</Title>
             </Group>
             <Text size="sm">
               Ready to start auditing?

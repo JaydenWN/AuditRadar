@@ -12,7 +12,7 @@ import {
 
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css';
-import { ColorSchemeScript, MantineProvider, AppShell, Burger, Group, Title, Stack } from '@mantine/core';
+import { ColorSchemeScript, MantineProvider, AppShell, Burger, Group, Title, Stack, Rating } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Notifications } from "@mantine/notifications";
 import Navbar from './components/ui/Navbar'
@@ -46,6 +46,7 @@ export default function App() {
       <body>
         <MantineProvider>
         <Notifications />
+       
           <AppShell
             header={{ height: {base : 80, md: 80} }}
             navbar={{
@@ -81,6 +82,7 @@ export default function App() {
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
+          
         </MantineProvider>
       </body>
     </html>

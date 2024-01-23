@@ -181,6 +181,7 @@ export default function LoginPage(){
                             size="xs">
                                 Sign up
                         </Button>
+
                 </Group>
                 </Stack>
             </>

@@ -1,10 +1,9 @@
 import { useForm } from '@mantine/form';
 import {Stack, Fieldset, TextInput, PasswordInput, Group, Button} from '@mantine/core';
-import { redirect, useSubmit } from '@remix-run/react';
-import {notifications} from '@mantine/notifications'
-import { useEffect, useState } from 'react';
+import { useSubmit } from '@remix-run/react';
+import { useEffect } from 'react';
 
-export default function SignupCardMantine({errorType, errorCode, actionData}){
+export default function SignupCardMantine({actionData}){
 
     const form = useForm({
         initialValues: {
@@ -37,9 +36,7 @@ export default function SignupCardMantine({errorType, errorCode, actionData}){
 
    function handleFormSubmit(values){
     const valueAndType = {...values, cardType : 'sign-up'}
-    
         handleSubmit(valueAndType, {method : 'post'})
-        
    }
 
     return(

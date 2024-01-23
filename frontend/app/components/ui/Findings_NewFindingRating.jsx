@@ -14,9 +14,9 @@ export default function NewFindingRating(){
             <Text size='sm' fw={500}>Give the issue a rating</Text>
             <Text size='xs' c='dimmed'>1 being a low rated problem, 5 being a high rated problem.</Text>
             <Rating 
-                mt='sm' 
-                emptySymbol={<IoThumbsDownOutline style={{color: theme.colors.gray[7], fontSize: '1.5em'}}/>}
-                fullSymbol={<IoThumbsDown style={{color: theme.colors.red[6], fontSize: '1.5em'}}/>} />
+                mt='lg' 
+                emptySymbol={<IoThumbsDownOutline style={{color: theme.colors.gray[7], }}/>}
+                fullSymbol={<IoThumbsDown style={{color: theme.colors.red[6],}}/>} />
         </Box>
     )
 
