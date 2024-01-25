@@ -64,7 +64,6 @@ export async function action({request}){
                 errorTarget: e.meta?.target?.[0],
                 errorCode: e.code,
             }
-            console.log(returnedResponseObj)
             return returnedResponseObj;
         } else {
             console.error('Unhandled error during user creation:', e);
