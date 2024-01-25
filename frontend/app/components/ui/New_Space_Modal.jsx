@@ -37,13 +37,13 @@ export default function NewSpaceModal({opened, close}){
             if(title){
                 notifications.show({
                     title: `Created the space ${title}.`,
-                    message : 'You can now add findings to this space.'
+                    message : 'You can now add findings to this space.',
+                    color : 'lime'
                 })
                 form.reset()
                 close()
             }
         }
-        
     },
     [fetcher.data])
 
