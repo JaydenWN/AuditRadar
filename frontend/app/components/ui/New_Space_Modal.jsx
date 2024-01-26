@@ -57,6 +57,7 @@ export default function NewSpaceModal({opened, close}){
                 })}>
                 <Stack>
                     <TextInput
+                    size="md"
                     label='Space Name'
                     description='Give a name for this space'
                     placeholder='Example : Kitchen'
