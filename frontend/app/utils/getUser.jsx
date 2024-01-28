@@ -6,7 +6,7 @@ export default async function getUser(request){
     const userId = await session.get('UserId')
         return prisma.user.findUnique({
             where : {
-                username : userId
+                id : userId
             },
             include : {
                 findings : true,
