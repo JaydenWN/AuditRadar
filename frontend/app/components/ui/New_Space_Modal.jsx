@@ -27,7 +27,6 @@ export default function NewSpaceModal({opened, close}){
     //Todo : Users can create space using uppercase or lowercase, example;
     // Can have both 'Kitchen' and 'kitchen'.
     useEffect(()=>{
-        console.log(fetcher.data)
         if(fetcher.data){
             const { errorCode, errorTarget, title } = fetcher.data.createdSpace
             if(errorTarget === 'title' && errorCode === 'P2002'){

@@ -29,7 +29,6 @@ export default function Navbar(){
         }
         
         if(fetcher.data){
-            console.log(fetcher.data)
             if(fetcher.data.spaces){
                 fetcher.data.spaces.map((currentObj)=>{
                     const label = currentObj.title
@@ -62,7 +61,6 @@ export default function Navbar(){
             label={itemChild.label}
             description={itemChild.description}
             onClick={() => handleNavClick(itemChild)}
-            style={{display : 'flex'}}
             />))
         }
 

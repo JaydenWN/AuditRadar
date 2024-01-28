@@ -28,9 +28,9 @@ model Finding {
   rating       Int
   resolved     Boolean
   resolvedDate DateTime?
-  User         User?     @relation(fields: [userId], references: [id])
+  User         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int?
-  space        Space?    @relation(fields: [spaceId], references: [id])
+  space        Space?    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
   spaceId      Int?
 
   @@unique([title, spaceId])
@@ -41,7 +41,7 @@ model Space {
   title   String
   image   String?
   Finding Finding[]
-  User    User?     @relation(fields: [userId], references: [id])
+  User    User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  Int?
 
   @@unique([title, userId])
