@@ -38,7 +38,7 @@ export default function Index() {
         username={userData.username}
         avatar={userData.avatar}/>
       <Index_CurrentFindings findings={userData.findings} spaces={userData.spaces}/>
-      <Index_LatestFindings/>
+      <Index_LatestFindings data={userData}/>
     </Stack>
     </Center>
   );
