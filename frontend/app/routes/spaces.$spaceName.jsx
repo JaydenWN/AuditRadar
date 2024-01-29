@@ -20,6 +20,7 @@ import { Prisma } from '@prisma/client';
 import {IoEllipsisVertical, IoTrashOutline, IoDocumentTextOutline} from "react-icons/io5/index.js";
 import Spaces_Edit_Modal from '../components/ui/Spaces_Edit_Modal';
 import { useEffect, useState } from 'react';
+import { requireUserId } from '../utils/session.server';
 
 export async function action({request, params}){
     const res = await request.formData()
@@ -62,8 +63,8 @@ export async function action({request, params}){
 }
 
 export async function loader({request, params}){
-    
-    const user = await getUser(request)
+    await requireUserId(request)
+    const user = getUser(request)
     
 
     const foundSpace = await prisma.space.findFirst({

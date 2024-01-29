@@ -37,11 +37,13 @@ export default function LoginCard(){
                 <Fieldset legend="Login">
 
                     <TextInput
+                    size="md"
                     label="Your Email"
                     placeholder="myaddress@email.com"
                     {...form.getInputProps('email')}
                     />
                     <PasswordInput
+                        size="md"
                         mt="md"
                         label="Your Password"
                         placeholder="input your password"

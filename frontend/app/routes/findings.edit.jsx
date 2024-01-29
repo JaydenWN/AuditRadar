@@ -1,5 +1,7 @@
+import { redirect } from "@remix-run/react"
 import { prisma } from "../utils/db.server"
 import getUser from "../utils/getUser"
+import { requireUserId } from "../utils/session.server"
 
 export async function action({request}){
     const data = await request.formData()
@@ -67,4 +69,9 @@ export async function action({request}){
         })
     }
     return null
+}
+
+export async function loader({request}){
+    await requireUserId(request)
+ return redirect('/') 
 }

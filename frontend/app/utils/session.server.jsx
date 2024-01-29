@@ -15,7 +15,7 @@ async function requireUserId(request){
     const userId = await session.get('UserId')
 
     if(!userId){
-        return redirect('/login')
+        throw redirect('/login')
     }else{
         return userId
     }

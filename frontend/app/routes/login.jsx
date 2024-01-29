@@ -125,7 +125,7 @@ export async function action({request}){
 }
 
 export async function loader({request}){
-   await requireUserId(request)
+  
    return null
 }
 

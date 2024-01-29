@@ -47,6 +47,7 @@ export default function Spaces_Card_Modal_Description({opened, close, id, descri
                     >
                     <Stack>
                     <Textarea
+                        size="md"
                         title='Edit Description'
                         description='Please write a new description.'
                         {...form.getInputProps('description')}/>
