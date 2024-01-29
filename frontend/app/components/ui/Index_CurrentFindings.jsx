@@ -61,7 +61,7 @@ export default function Index_CurrentFindings({findings, spaces}){
             spacesWithIssue.map((space)=>(
               { value: space.issueCount / totalIssues * 100,
                 color: getRandomRGBColor(), 
-                tooltip: `${space.spaceTitle}, ${space.issueCount / totalIssues * 100}%`}
+                tooltip: `${space.spaceTitle}, ${(space.issueCount / totalIssues * 100).toString().slice(0,4)}%`}
             )) : []
         }
         />
