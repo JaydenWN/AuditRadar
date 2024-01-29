@@ -89,7 +89,7 @@ export async function action({request}){
                     //log in successful
                     const session = await getSession(request.headers.get('Cookie'))
 
-                    session.set('UserId', user.username)
+                    session.set('UserId', user.id)
 
                     return redirect('/',{
                         headers: {
@@ -181,6 +181,7 @@ export default function LoginPage(){
                             size="xs">
                                 Sign up
                         </Button>
+
                 </Group>
                 </Stack>
             </>

@@ -4,6 +4,7 @@ import {
     Image,
     Text,
     Rating,
+    Badge,
 } from '@mantine/core'
 
 import { useMantineTheme } from '@mantine/core';
@@ -26,24 +27,26 @@ export default function Findings_Card({title, space, description, rating}){
                         h={160}
                         alt="No way!"
                         />
-                    </Card.Section>   
+                    </Card.Section>
+
+                    
 
                     <Text fw={500} size="lg" mt="md">
-                        Finding Title
+                        {title}
                     </Text>
                     
                     <Text c='dimmed' size='xs'>
-                        Space Name
+                        {space}
                     </Text>
 
                     <Text mt="md" c="dimmed" size="sm">
-                        Finding Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde accusantium perspiciatis aliquid molestias recusandae nobis laboriosam atque sit veniam accusamus!
+                        {description}
                     </Text>
 
                     <Flex align='center' gap='md' direction='column'>
                     <Text mt='lg' fw={400}>Rating Level</Text>
                      <Rating
-                      defaultValue={2}
+                      defaultValue={rating}
                       readOnly
                       emptySymbol={thumbIconEmpty}
                       fullSymbol={thumbIconFull}></Rating>

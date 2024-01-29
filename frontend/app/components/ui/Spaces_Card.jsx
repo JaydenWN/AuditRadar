@@ -8,26 +8,75 @@ import {
     Group,
     useMantineTheme,
     Rating,
-    Stack
+    Stack,
+    Modal,
+    Badge,
 } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks';
+import { useSubmit } from '@remix-run/react';
+import { useState } from 'react';
 
-import { IoEllipsisVertical, IoImagesOutline, IoDocumentTextOutline, IoTextSharp, IoTrashOutline, IoCheckmarkDoneOutline, IoThumbsDown, IoThumbsDownOutline } from "react-icons/io5/index.js";
+import { IoEllipsisVertical, IoImagesOutline, IoDocumentTextOutline, IoTrashOutline, IoCheckmarkDoneOutline, IoThumbsDown, IoThumbsDownOutline, IoTextSharp } from "react-icons/io5/index.js";
+import Spaces_Card_Modal_Description from './Spaces_Card_Modal_Description';
+import Spaces_Card_Modal_Rating from './Spaces_Card_Modal_Rating';
+import Spaces_Card_Modal_Title from './Spaces_Card_Modal_Title';
 
-export default function Spaces_Card({title, space, description, rating}){
+export default function Spaces_Card({title, id, resolved, description, rating}){
     const theme = useMantineTheme()
     const thumbIconFull = (<IoThumbsDown style={{color: theme.colors.red[6]}}/>)
     const thumbIconEmpty = (<></>)
+
+    const submit = useSubmit()
+    
+    const [opened, {open, close}] = useDisclosure()
+    const [currentModal , setCurrentModal] = useState()
+
+
+    async function handleMenuClick(type){
+        if(type === 'resolved'){
+            submit({setResolved : true, id }, {
+                action : '/findings/edit',
+                method: 'PATCH',
+                navigate: false
+            })
+        }
+    }
+
     return(
+        <>
+        {currentModal === 'title' ? 
+        <Spaces_Card_Modal_Title close={close} opened={opened} id={id} title={title}/> : null }
+
+        {currentModal === 'description' ? 
+        <Spaces_Card_Modal_Description close={close} opened={opened} id={id} description={description}/> : null }
+        
+        {currentModal === 'rating' ? 
+        <Spaces_Card_Modal_Rating close={close} opened={opened} id={id}/> : null }
+
+        {currentModal === 'image' ? 
+        <Modal
+            opened={opened}
+            onClose={close}
+            title = 'Edit Image'>
+
+        </Modal> : null }
+
+
             <Flex>
                 <Card
                     shadow="sm"
                     p='md'
+                    miw={"100%"}
                 >
                     {/*ToDo : Create menu*/}
                     <Card.Section  p='xs'>
                         <Menu position='bottom-end'>
 
-                        <Group  style={{flexDirection: 'row-reverse'}}>
+                        <Group  justify='space-between'>
+                        {resolved === false ?  
+                        <Badge variant="dot" color="red" size="sm">Unresolved</Badge>
+                        : <Badge variant="dot" color="green" size="sm">Resolved</Badge>}
+                        
                         <Menu.Target>
                             
                             <ActionIcon variant='default'>
@@ -40,19 +89,39 @@ export default function Spaces_Card({title, space, description, rating}){
                         
                         <Menu.Dropdown>
                             <Menu.Label>Configure Finding</Menu.Label>
-                            <Menu.Item leftSection={<IoCheckmarkDoneOutline />} >
-                                Mark As Resolved
+                            <Menu.Item 
+                                leftSection={<IoCheckmarkDoneOutline />}
+                                onClick={()=>handleMenuClick('resolved')} >
+                                Toggle Resolved
                             </Menu.Item>
-                            <Menu.Item leftSection={<IoDocumentTextOutline />}>
+                            <Menu.Item 
+                                leftSection={<IoTextSharp />}
+                                onClick={()=>{setCurrentModal('title'); open()}}>
+                                Edit Title
+                            </Menu.Item>                            
+                            <Menu.Item 
+                                leftSection={<IoDocumentTextOutline />}
+                                onClick={()=>{setCurrentModal('description'); open()}}>
                                 Edit Description
                             </Menu.Item>
-                            <Menu.Item leftSection={<IoImagesOutline />}>
+                            <Menu.Item 
+                                leftSection={<IoImagesOutline />} 
+                                onClick={()=>{setCurrentModal('image'); open()}}>
                                 Change Image
                             </Menu.Item>
-                            <Menu.Item leftSection={<IoThumbsDownOutline />}>
+                            <Menu.Item 
+                                leftSection={<IoThumbsDownOutline />}
+                                onClick={()=>{setCurrentModal('rating'); open()}}>
                                 Edit Rating
                             </Menu.Item>
-                            <Menu.Item leftSection={<IoTrashOutline />} style={{color: theme.colors.red[9]}}>
+                            <Menu.Item 
+                                leftSection={<IoTrashOutline />} 
+                                style={{color: theme.colors.red[9]}}
+                                onClick={()=>{submit({id},{
+                                    method: 'DELETE',
+                                    action : '/findings/edit',
+                                    navigate : false
+                                })}}>
                                 Delete Finding
                             </Menu.Item>
                             
@@ -70,16 +139,16 @@ export default function Spaces_Card({title, space, description, rating}){
                     </Card.Section>   
 
                     <Text fw={500} size="lg" mt="md">
-                        Finding Title
+                        {title.length > 25 ? title.substring(0,26)+ '...' : title}
                     </Text>
                     
                     <Text mt="md" c="dimmed" size="sm">
-                        Space Description Lorem ipsum dolor sit amet, consectetur adip...
+                        {description}
                     </Text>
                     <Stack gap='xs'>
-                    <Text mt='lg' fw={400}>Rating Level</Text>
+                    <Text mt='lg' fw={400}>Rating Level : {rating}</Text>
                      <Rating
-                      defaultValue={2}
+                      defaultValue={rating}
                       readOnly
                       emptySymbol={thumbIconEmpty}
                       fullSymbol={thumbIconFull}></Rating>
@@ -87,5 +156,5 @@ export default function Spaces_Card({title, space, description, rating}){
 
                 </Card>
             </Flex>
-    )
+    </>)
 }

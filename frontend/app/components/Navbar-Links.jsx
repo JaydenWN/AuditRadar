@@ -16,12 +16,7 @@ const navbarLinks = [
     {
         label : 'My Spaces',
         leftSection : <IoCompassSharp />,
-        children: [
-            {
-                label : 'room name 1',
-                url : '/spaces/room name 1'
-            }
-        ]
+        children: []
 
     },
     {   
