@@ -11,7 +11,8 @@ import getUser from '../utils/getUser'
 import { useLoaderData } from "@remix-run/react";
 
 export async function loader({request}){
-    try{
+  await requireUserId(request)
+
       const user = await getUser(request)
       return {
         username : user?.username,
@@ -19,18 +20,11 @@ export async function loader({request}){
         findings : user?.findings,
         spaces : user?.spaces
       }
-    }catch{
-      return await requireUserId(request)
-    }
-
-    return null
 }
-
 export default function Index() {
 
   const userData = useLoaderData()
- 
-
+  
   return (
     <Center>
     <Stack maw={{base : '100%' , md: '60%'}}>

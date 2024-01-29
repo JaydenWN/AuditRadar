@@ -1,4 +1,4 @@
-import { useForm } from '@mantine/form';
+import { useForm,  isEmail } from '@mantine/form';
 import {Stack, Fieldset, TextInput, PasswordInput, Group, Button} from '@mantine/core';
 import { useSubmit } from '@remix-run/react';
 import { useEffect } from 'react';
@@ -13,8 +13,8 @@ export default function SignupCardMantine({actionData}){
         },
 
         validate: {
-            username: (value) => (/^(?!.*\s{2,})[A-Za-z][A-Za-z\s]{0,28}[A-Za-z]$/.test(value) ? null :  'Username must be 2 alphabetical characters long, not start with a space, end with a space, or contain more than two spaces.' ),
-           email : (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            username: (value) => (/^[^0-9 ][A-Za-z][A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/.test(value) ? null :  'Username must be 2 alphabetical characters long, not start with a number, space, end with a space.' ),
+           email : isEmail('Invalid Email'),
            password : (value) => (/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/.test(value) ? null : 'Password must be 12 characters long, contain at least 1 uppercase letter, 1 digit and 1 special character.')
         }
     })
@@ -51,12 +51,14 @@ export default function SignupCardMantine({actionData}){
                         })}>
                 
                         <TextInput
+                        size="md"
                         label="Your Email"
                         placeholder="myaddress@email.com"
                         {...form.getInputProps('email')}
                         />
 
                         <TextInput
+                            size="md"
                             mt="md"
                             label="Username"
                             placeholder="What should we call you?"
@@ -64,6 +66,7 @@ export default function SignupCardMantine({actionData}){
                         />
 
                         <PasswordInput
+                            size="md"
                             mt="md"
                             label="Your Password"
                             placeholder="Input your password"

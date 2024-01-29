@@ -49,6 +49,7 @@ export default function Spaces_Card_Modal_Title({opened, close, id, title}){
                     >
                     <Stack>
                     <TextInput
+                        size="md"
                         title='Edit title'
                         description='Please write a new Title.'
                         {...form.getInputProps('title')}/>

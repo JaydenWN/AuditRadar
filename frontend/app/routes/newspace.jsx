@@ -1,9 +1,10 @@
 import {prisma}from '../utils/db.server'
 import getUser from '../utils/getUser'
 import {Prisma} from '@prisma/client'
+import { requireUserId } from '../utils/session.server'
 
 export async function action({request}){
-
+    await requireUserId(request)
     const user = await getUser(request)
     const data = await request.formData()
 
@@ -28,4 +29,8 @@ export async function action({request}){
     });
    
     return {createdSpace}
+}
+export async function loader({request}){
+    await requireUserId(request)
+    return null
 }

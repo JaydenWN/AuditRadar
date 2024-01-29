@@ -43,12 +43,14 @@ export default function Settings_Account_Info({data}){
 
             <Stack>
                 <PasswordInput
+                    size="md"
                     label="Password"
                     visible={visible}
                     onVisibilityChange={toggle}
                     {...form.getInputProps('password')}
                     />
                 <PasswordInput
+                    size="md"
                     label="Repeat Password"
                     visible={visible}
                     onVisibilityChange={toggle}

@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 
 
 export default function Index_CurrentFindings({findings, spaces}){
-  
-   
 
    const [spacesWithIssue, setSpacesWithIssue] = useState(0)
    const [totalIssues, setTotalIssues] = useState(0)
@@ -18,15 +16,12 @@ export default function Index_CurrentFindings({findings, spaces}){
    useEffect(()=>{
     const spacesWithIssues = []
       if(spaces){
-        spaces.map((space)=>{
-          
+        spaces.map((space)=>{  
           let issueCount = 0
           space.Finding.map((finding)=>{
             Object.values(finding).includes(false) ? issueCount++  : null}
           )
           spacesWithIssues.push({spaceTitle : space.title, issueCount : issueCount})
-          
-          
         }
         )
       }
@@ -58,12 +53,11 @@ export default function Index_CurrentFindings({findings, spaces}){
           thickness={16}
           label={
             <Text size="xs" ta="center" px="xs" style={{ pointerEvents: 'none' }}>
-              Hover / Press sections to see information
+              {totalIssues != 0 ? 'Hover / Press sections to see information' : 'No findings' }
             </Text>
           }
           sections={
-            
-            spacesWithIssue != 0 ?
+            spacesWithIssue != 0 && totalIssues != 0 ?
             spacesWithIssue.map((space)=>(
               { value: space.issueCount / totalIssues * 100,
                 color: getRandomRGBColor(), 

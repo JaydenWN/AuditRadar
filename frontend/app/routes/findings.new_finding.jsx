@@ -23,15 +23,13 @@ import {notifications} from '@mantine/notifications'
 import { Prisma } from '@prisma/client';
 
 export async function loader({request}){
-    try{
+    await requireUserId(request)
+    
         const user = await getUser(request)
         return {
           spaces : user?.spaces
         }
-       
-      }catch{
-        return await requireUserId(request)
-      }
+
 }
 
 export async function action({request}){
@@ -142,12 +140,14 @@ export default function NewFinding(){
                  {...form.getInputProps('image')}/>
 
                 <TextInput
+                size="md"
                 label='Finding Title'
                 description='Give the finding a title'
                 placeholder='Example, Grime On Tiled Wall'
                 {...form.getInputProps('title')}/>
 
                 <Select
+                    size="md"
                     label="Select Space"
                     placeholder="Select the space where the issue was found"
                     data={
@@ -158,6 +158,8 @@ export default function NewFinding(){
                     />
                 
                 <Textarea
+                    size="md"
+                    size="md"
                     label="Describe The Issue"
                     description="What did you find?"
                     placeholder="Example, Spoon was not in correct spot on shadow-board . . ."

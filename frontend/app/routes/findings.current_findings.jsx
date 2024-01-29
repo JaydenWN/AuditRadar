@@ -19,7 +19,7 @@ export async function loader({request}){
     const userauth = await requireUserId(request)
     
     if(userauth){
-        const user = getUser(request)
+        const user = await getUser(request)
         const finding = await prisma.finding.findMany({
             where: {
                 userId : user.id
@@ -38,7 +38,6 @@ export async function loader({request}){
 
 export default function CurrentFindings(){
 const loaderData = useLoaderData()
-console.log(loaderData)
     return(
         <Paper shadow='sm' p='lg' withBorder>
             <Stack align='center'>

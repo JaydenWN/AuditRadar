@@ -79,9 +79,10 @@ export async function action({request}){
 }
 
 export async function loader({request}){
-  await requireUserId(request)
-  const user = getUser(request)
-  return user
+   await requireUserId(request)
+    const user = getUser(request)
+    return user
+  
 }
 export default function Settings(){
 

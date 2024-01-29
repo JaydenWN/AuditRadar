@@ -16,7 +16,7 @@ export default function Settings_Account_Info_Username({data}){
         },
 
         validate: {
-            user: (value) => /^(?!.*\s{2,})[A-Za-z][A-Za-z\s]{0,28}[A-Za-z]$/.test(value) ? null : 'Username must be 2 alphabetical characters long, not start with a space, end with a space, or contain more than two spaces.' 
+            user: (value) => (/^[^0-9 ][A-Za-z][A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/.test(value) ? null :  'Username must be 2 alphabetical characters long, not start with a number, space, end with a space.' ) 
         }
     })
     useEffect(()=>{
@@ -39,6 +39,7 @@ export default function Settings_Account_Info_Username({data}){
 
             <Stack>
             <TextInput
+                size="md"
                 label='Username'
                 description= 'Change your username'
                 placeholder='John Doe'

@@ -1,10 +1,12 @@
 import {prisma} from './db.server'
 import { getSession } from "../utils/session.server";
+import { redirect } from '@remix-run/node';
 
 export default async function getUser(request){
     const session = await getSession(request.headers.get('Cookie'))
     const userId = await session.get('UserId')
-        return prisma.user.findUnique({
+    if(userId){
+        return await prisma.user.findUnique({
             where : {
                 id : userId
             },
@@ -13,4 +15,5 @@ export default async function getUser(request){
                 spaces : {include : {Finding : true}}
             } 
         })
+    }else{return redirect('/login')}
 }
