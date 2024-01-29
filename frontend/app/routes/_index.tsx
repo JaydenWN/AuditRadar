@@ -29,7 +29,7 @@ export async function loader({request}){
 export default function Index() {
 
   const userData = useLoaderData()
-  console.log(userData)
+ 
 
   return (
     <Center>

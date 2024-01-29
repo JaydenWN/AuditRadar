@@ -10,7 +10,7 @@ export default async function getUser(request){
             },
             include : {
                 findings : true,
-                spaces : true
+                spaces : {include : {Finding : true}}
             } 
         })
 }
