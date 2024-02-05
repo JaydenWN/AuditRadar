@@ -149,6 +149,7 @@ export default function Room(){
                         key={finding.title}
                         id={finding.id}
                         resolved={finding.resolved}
+                        image={finding.image}
                     />
                 )) 
                 : 

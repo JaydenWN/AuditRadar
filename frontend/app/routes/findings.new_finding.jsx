@@ -14,7 +14,7 @@ import NewFindingRating from '../components/ui/Findings_NewFindingRating'
 import FindingDropZone from '../components/ui/Findings_FindingDropzone'
 import { requireUserId } from '../utils/session.server';
 import getUser from '../utils/getUser';
-import {useActionData, useLoaderData, useSubmit} from '@remix-run/react'
+import {useActionData, useFetcher, useLoaderData, useSubmit} from '@remix-run/react'
 import {useForm} from '@mantine/form'
 import { useEffect, useState } from 'react';
 import { IoThumbsDown, IoThumbsDownOutline } from 'react-icons/io5/index.js'
@@ -22,22 +22,25 @@ import {prisma}from '../utils/db.server'
 import {notifications} from '@mantine/notifications'
 import { Prisma } from '@prisma/client';
 
+import { unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData, writeAsyncIterableToWritable } from '@remix-run/node';
+
 export async function loader({request}){
     await requireUserId(request)
-    
-        const user = await getUser(request)
-        return {
-          spaces : user?.spaces
-        }
+
+    const user = await getUser(request)
+
+    return {
+        spaces : user?.spaces,
+    }
 
 }
 
 export async function action({request}){
+
 //ToDo: make sure title is unique. otherwise findFirst wont work
     const data = await request.formData()
-    
     const user = await getUser(request)
-    
+
     const space = await prisma.space.findFirst({
         where: {
             title: data.get('space'),
@@ -48,7 +51,7 @@ export async function action({request}){
     const createdFindidng = await prisma.finding.create({
         data: {
             title: data.get('title'),
-            image: '',
+            image: data.get('imageUrl'),
             description: data.get('description'),
             rating: Number(data.get('rating')),
             resolved: false,
@@ -80,6 +83,7 @@ export default function NewFinding(){
     const loaderData = useLoaderData()
     const actionData = useActionData()
     const handleSubmit = useSubmit()
+    const fetcher = useFetcher()
     
     const [rating, setRating] = useState(0)
 
@@ -98,22 +102,37 @@ export default function NewFinding(){
             description: (value) => (value? null : 'Please give the finding a description'),
         }
     })
-
+//Notifications
     useEffect(()=>{
-        actionData?.title?
-        notifications.show({
-            title : 'Created Finding',
-            message: `Added Finding: ${actionData.title}, to the space ${actionData.spaceName}, with the rating of ${actionData.rating}.`,
-            autoClose : 10000,
-            color : "lime"
-        }): null
+        if(actionData?.title){
+            notifications.show({
+                title : 'Created Finding',
+                message: `Added Finding: ${actionData.title}, to the space ${actionData.spaceName}, with the rating of ${actionData.rating}.`,
+                autoClose : 10000,
+                color : "lime"
+            })
+            //Sends image to s3
+            fetch(fetcher.data.signedUrl, {
+                method : 'PUT',
+                body: form.values.image,
+            })
+        }
+       
         
 
         actionData?.errorCode ?
         form.setErrors({title : 'Finding Title already in use.'}) : null
         
+        actionData ? console.log(actionData) : null
     },[actionData])
-  
+
+//Presigned URLs
+    useEffect(()=>{
+        if(fetcher.data){
+             handleSubmit({...form.values, rating : rating, imageUrl : fetcher.data.dbUrl}, {method : 'post', action : '/findings/new_finding'})            
+        }
+    },[fetcher.data])
+    
     return (
         <Stack gap='lg'>
             
@@ -127,9 +146,11 @@ export default function NewFinding(){
         </Paper>
 
         <form
-            onSubmit={form.onSubmit((values)=>{
-                const formValues = {...values, rating : rating}
-                handleSubmit(formValues, {method : 'post', action : '/findings/new_finding'})
+            onSubmit={form.onSubmit(async(values)=>{
+                const imageForm = new FormData()
+                imageForm.set('type', values.image.type)
+                
+                    fetcher.submit(imageForm, {method : 'POST', action: '/getPresignedUrl'})
                 
             })}>
 
@@ -137,6 +158,8 @@ export default function NewFinding(){
                 <Stack gap='lg'>
 
                 <FindingDropZone
+                signedURL={loaderData.url}
+                 form={form}
                  {...form.getInputProps('image')}/>
 
                 <TextInput
@@ -158,7 +181,6 @@ export default function NewFinding(){
                     />
                 
                 <Textarea
-                    size="md"
                     size="md"
                     label="Describe The Issue"
                     description="What did you find?"
@@ -184,7 +206,13 @@ export default function NewFinding(){
                     type='submit'>
                     Submit Finding 
                 </Button>
-
+                <Button 
+                    variant='default'
+                    maw='fit-content'
+                    style={{alignSelf: 'flex-end'}}
+                    onClick={()=>console.log(form.values)}>
+                    x
+                </Button>
                 </Stack>
 
                 

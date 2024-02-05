@@ -21,7 +21,7 @@ import Spaces_Card_Modal_Description from './Spaces_Card_Modal_Description';
 import Spaces_Card_Modal_Rating from './Spaces_Card_Modal_Rating';
 import Spaces_Card_Modal_Title from './Spaces_Card_Modal_Title';
 
-export default function Spaces_Card({title, id, resolved, description, rating}){
+export default function Spaces_Card({title, id, resolved, description, rating, image}){
     const theme = useMantineTheme()
     const thumbIconFull = (<IoThumbsDown style={{color: theme.colors.red[6]}}/>)
     const thumbIconEmpty = (<></>)
@@ -132,7 +132,7 @@ export default function Spaces_Card({title, id, resolved, description, rating}){
 
                     <Card.Section>
                         <Image
-                        src="https://images.unsplash.com/photo-1579227114347-15d08fc37cae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                        src={image? image : "https://images.unsplash.com/photo-1579227114347-15d08fc37cae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"}
                         h={160}
                         alt="No way!"
                         />
