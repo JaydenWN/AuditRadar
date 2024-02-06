@@ -161,7 +161,7 @@ export default function Settings(){
             <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder>
                 
                     <Group className={classes.smCenter} >
-                    <Avatar variant="light" radius="xl" size="lg" src="" className={classes.avatar}/>
+                    <Avatar variant="light" radius="xl" size="lg" src={userData.avatar} className={classes.avatar}/>
                         <Stack  gap='xs' className={classes.smCenter}>
                             <Title order={2} align='center'>User Settings for {userData.username}</Title>
                             <Text size="sm">You can change your preferences here.</Text>
@@ -184,7 +184,7 @@ export default function Settings(){
 
             <Settings_Account_Info data={actionData}/>
 
-            <Settings_Avatar/>
+            <Settings_Avatar avatar={userData.avatar}/>
 
             {/*Needed to wait for computedColorScheme to return
             something other than undefined, otherwise run into

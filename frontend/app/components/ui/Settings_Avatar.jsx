@@ -14,7 +14,7 @@ import classes from './styles/settings.module.css'
 import { useFetcher, useSubmit } from '@remix-run/react';
 import { useEffect } from 'react';
 
-export default function Settings_Avatar(){
+export default function Settings_Avatar({avatar}){
 
     const form = useForm({
         validate : {
@@ -51,7 +51,7 @@ export default function Settings_Avatar(){
                             Change Your Avatar
                         </Title>
                     <Group  className={classes.smCenter}>
-                        <Avatar variant="light" radius="xl" size="lg" src="" />
+                        <Avatar variant="light" radius="xl" size="lg" src={avatar}  />
                         <FileInput
                             label="Upload Image"
                             description="Upload a jpeg/png image to use as your new avatar"
