@@ -11,15 +11,17 @@ import {
     Stack,
     Modal,
     Badge,
+    Skeleton,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
 import { useSubmit } from '@remix-run/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IoEllipsisVertical, IoImagesOutline, IoDocumentTextOutline, IoTrashOutline, IoCheckmarkDoneOutline, IoThumbsDown, IoThumbsDownOutline, IoTextSharp } from "react-icons/io5/index.js";
 import Spaces_Card_Modal_Description from './Spaces_Card_Modal_Description';
 import Spaces_Card_Modal_Rating from './Spaces_Card_Modal_Rating';
 import Spaces_Card_Modal_Title from './Spaces_Card_Modal_Title';
+import Spaces_Card_Modal_ChangeImage from './Spaces_Card_Modal_EditImage';
 
 export default function Spaces_Card({title, id, resolved, description, rating, image}){
     const theme = useMantineTheme()
@@ -30,7 +32,9 @@ export default function Spaces_Card({title, id, resolved, description, rating, i
     
     const [opened, {open, close}] = useDisclosure()
     const [currentModal , setCurrentModal] = useState()
-
+    const [imageLoading, setImageLoading] = useState(false)
+    const [prevImageDimensions , setPrevImageDimensions] = useState()
+    
 
     async function handleMenuClick(type){
         if(type === 'resolved'){
@@ -54,12 +58,7 @@ export default function Spaces_Card({title, id, resolved, description, rating, i
         <Spaces_Card_Modal_Rating close={close} opened={opened} id={id}/> : null }
 
         {currentModal === 'image' ? 
-        <Modal
-            opened={opened}
-            onClose={close}
-            title = 'Edit Image'>
-
-        </Modal> : null }
+        <Spaces_Card_Modal_ChangeImage close={close} opened={opened} id={id} image={image} setImageLoading={setImageLoading} imageLoading={imageLoading}/> : null }
 
 
             <Flex>
@@ -131,11 +130,15 @@ export default function Spaces_Card({title, id, resolved, description, rating, i
                     </Card.Section>
 
                     <Card.Section>
+                        {imageLoading ? 
+                        <Skeleton
+                            height={prevImageDimensions}/> :
                         <Image
                         src={image? image : "https://images.unsplash.com/photo-1579227114347-15d08fc37cae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"}
                         h={160}
-                        alt="No way!"
-                        />
+                        alt={title}
+                        onLoad={(e)=>setPrevImageDimensions(e.target.height)}
+                        />}
                     </Card.Section>   
 
                     <Text fw={500} size="lg" mt="md">

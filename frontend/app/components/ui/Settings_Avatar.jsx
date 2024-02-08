@@ -5,16 +5,18 @@ import {
     Avatar,
     FileInput,
     Group,
-    Button
+    Button,
+    Skeleton
 } from '@mantine/core'
 
 import { useForm } from '@mantine/form';
 
 import classes from './styles/settings.module.css'
 import { useFetcher, useSubmit } from '@remix-run/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Settings_Avatar({avatar}){
+export default function Settings_Avatar({avatar, imageLoading, setImageLoading}){
+    const [currentImg, setCurrentImage] = useState(avatar)
 
     const form = useForm({
         validate : {
@@ -28,11 +30,17 @@ export default function Settings_Avatar({avatar}){
     //Presigned URLs
     useEffect(()=>{
         if(fetcher.data){
-
+            setImageLoading(true)
             fetch(fetcher.data.signedUrl, {
                 method : 'PUT',
                 body: form.values.avatar,
+            }).then(async(res)=>{
+                if(res.ok === true){
+                    setCurrentImage(res.url.split('?')[0])
+                    setImageLoading(false)
+                }
             })
+            
 
              handleSubmit({imageUrl : fetcher.data.dbUrl}, {method : 'post', action : '/settings'})            
         }
@@ -51,7 +59,8 @@ export default function Settings_Avatar({avatar}){
                             Change Your Avatar
                         </Title>
                     <Group  className={classes.smCenter}>
-                        <Avatar variant="light" radius="xl" size="lg" src={avatar}  />
+                    {imageLoading ? <Skeleton height={50} circle mb="xl" /> :
+                        <Avatar variant="light" radius="xl" size="lg" src={currentImg}  />}
                         <FileInput
                             label="Upload Image"
                             description="Upload a jpeg/png image to use as your new avatar"
