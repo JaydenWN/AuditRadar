@@ -50,7 +50,8 @@ const loaderData = useLoaderData()
                             title={finding.title}
                             space={finding.space.title}
                             description={finding.description}
-                            rating={finding.rating} />
+                            rating={finding.rating}
+                            image={finding.image} />
                         :
                         null
                     ))}

@@ -62,14 +62,6 @@ export default function NewSpaceModal({opened, close}){
                     placeholder='Example : Kitchen'
                     {...form.getInputProps('title')}
                     />
-                    <FileInput
-                    leftSection={<IoCloudUploadOutline/>}
-                    label='Upload an image'
-                    placeholder='Image of New Space'
-                    value={value}
-                    onChange={setValue}
-                    {...form.getInputProps('image')}
-                    />
                     <Button type="submit" variant="default">Submit</Button>
                 </Stack>
             </form>

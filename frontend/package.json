@@ -11,6 +11,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.504.0",
+    "@aws-sdk/s3-request-presigner": "^3.504.0",
     "@mantine/core": "^7.4.0",
     "@mantine/dropzone": "^7.4.1",
     "@mantine/form": "^7.4.1",
@@ -21,6 +23,7 @@
     "@remix-run/node": "^2.4.1",
     "@remix-run/react": "^2.4.1",
     "@remix-run/serve": "^2.4.1",
+    "aws-sdk": "^2.1550.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "isbot": "^3.6.8",

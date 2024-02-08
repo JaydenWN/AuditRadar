@@ -51,6 +51,19 @@ export async function action({request, params}){
         })
     }
 
+    if(request.method ==='POST'){
+        const url = res.get('imageUrl')
+        
+        return prisma.finding.update({
+            where: {
+                id : Number(res.get('findingId')),
+            },
+            data : {
+                image: url
+            }
+        })
+    }
+
     if(request.method === 'DELETE'){
         return await prisma.space.delete({
             where: {
@@ -149,6 +162,7 @@ export default function Room(){
                         key={finding.title}
                         id={finding.id}
                         resolved={finding.resolved}
+                        image={finding.image}
                     />
                 )) 
                 : 
