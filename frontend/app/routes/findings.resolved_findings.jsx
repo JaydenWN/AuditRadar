@@ -39,6 +39,7 @@ export async function loader({request}){
 
 export default function CurrentFindings(){
 const loaderData = useLoaderData()
+console.log(loaderData)
     return(
         <Paper shadow='sm' p='lg' withBorder>
             <Stack align='center'>
@@ -49,7 +50,7 @@ const loaderData = useLoaderData()
                     {loaderData.map((finding)=>(
                         finding.resolved === true ?
                         <Findings_Card
-                            key={finding.title}
+                            key={finding.id}
                             title={finding.title}
                             space={finding.space.title}
                             description={finding.description}

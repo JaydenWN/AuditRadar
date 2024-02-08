@@ -2,7 +2,8 @@ import {
     Paper,
     Title,
     Stack,
-    SimpleGrid
+    SimpleGrid,
+    Text
 } from '@mantine/core'
 
 import Findings_Card from '../components/ui/Findings_Card';
@@ -36,17 +37,20 @@ export async function loader({request}){
 
 }
 
+
 export default function CurrentFindings(){
 const loaderData = useLoaderData()
+console.log(loaderData)
     return(
         <Paper shadow='sm' p='lg' withBorder>
             <Stack align='center'>
                 <Title>Current Findings</Title>
+                {loaderData.some(obj => obj.resolved === false) ? 
                 <SimpleGrid cols={{base: 1, sm : 2, md: 3}}>
                     {loaderData.map((finding)=>(
                         finding.resolved === false ?
                         <Findings_Card
-                            key={finding.title}
+                            key={finding.id}
                             title={finding.title}
                             space={finding.space.title}
                             description={finding.description}
@@ -54,9 +58,10 @@ const loaderData = useLoaderData()
                             image={finding.image} />
                         :
                         null
-                    ))}
-                    
-                </SimpleGrid>
+                    ))}    
+                </SimpleGrid> : 
+                <Text c='dimmed'>Currently no findings.</Text>
+                }
             </Stack>
         </Paper>
     )

@@ -37,7 +37,6 @@ export async function loader({request}){
 
 export async function action({request}){
 
-//ToDo: make sure title is unique. otherwise findFirst wont work
     const data = await request.formData()
     const user = await getUser(request)
 
