@@ -6,7 +6,7 @@ import {
     Paper, 
     Avatar, 
     Group, 
-    FileInput, 
+    Center, 
     Switch,
     useMantineTheme,
     rem,
@@ -157,9 +157,10 @@ export default function Settings(){
     },[color])
 
     return (
-        <Box component={Stack} m={{xs: 'xs', sm: 'sm', md: 'md' }} >
+        <Center>
+        <Box component={Stack} miw='50%' >
 
-            <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder>
+            <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder >
                 
                     <Group className={classes.smCenter} >
                     {imageLoading ? <Skeleton height={50} circle mb="xl" /> :
@@ -209,5 +210,6 @@ export default function Settings(){
             </Paper>}
         
         </Box>
+        </Center>
     )
 }
