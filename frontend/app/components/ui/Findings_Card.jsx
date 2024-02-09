@@ -20,6 +20,7 @@ export default function Findings_Card({title, space, description, rating, image}
                 <Card
                     shadow="sm"
                     padding="md"
+                    miw={"100%"}
                 >
                     <Card.Section>
                         <Image

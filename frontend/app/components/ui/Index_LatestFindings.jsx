@@ -19,7 +19,8 @@ export default function Index_LatestFindings({data}){
                         title={finding.title}
                         description={finding.description}
                         alt={finding.title}
-                        img={finding.image}/>
+                        img={finding.image}
+                        rating={finding.rating}/>
                 ))}
                 </SimpleGrid>
             </Stack>

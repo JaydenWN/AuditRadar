@@ -1,9 +1,14 @@
 import {
     Card,
     Image,
-    Text 
+    Text,
+    Rating,
+    useMantineTheme
 }from '@mantine/core'
-export default function Index_LatestFindings_Card({img, alt, title, description}){
+import { IoThumbsDown, IoThumbsDownOutline } from 'react-icons/io5/index.js'
+
+export default function Index_LatestFindings_Card({img, alt, title, description, rating}){
+  const theme = useMantineTheme()
     return(
         <Card
             shadow="sm"
@@ -12,13 +17,19 @@ export default function Index_LatestFindings_Card({img, alt, title, description}
             <Card.Section>
               <Image 
                 h={160}
-                src="https://images.unsplash.com/photo-1579227114347-15d08fc37cae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                src={img}
                 alt={alt}
                 >
               </Image>
             </Card.Section>
             <Text mt='sm' fw={500}>{title}</Text>
             <Text c='dimmed'>{description}</Text>
+            <Rating
+                readOnly
+                value={rating}
+                mt='lg' 
+                emptySymbol={<IoThumbsDownOutline style={{color: theme.colors.gray[7], }}/>}
+                fullSymbol={<IoThumbsDown style={{color: theme.colors.red[6],}}/>} />
           </Card>
     )
 }

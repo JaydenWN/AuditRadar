@@ -22,6 +22,8 @@ import Spaces_Edit_Modal from '../components/ui/Spaces_Edit_Modal';
 import { useEffect, useState } from 'react';
 import { requireUserId } from '../utils/session.server';
 
+import { DeleteObjectsCommand, S3Client } from "@aws-sdk/client-s3"
+
 export async function action({request, params}){
     const res = await request.formData()
 
@@ -65,12 +67,46 @@ export async function action({request, params}){
     }
 
     if(request.method === 'DELETE'){
+
+        const currentFindings = await prisma.finding.findMany({
+            where : {
+                spaceId : Number(res.get('id')),
+            }
+        })
+
+        let findingImageArray = []
+
+        currentFindings.forEach((finding)=>{
+            findingImageArray.push({Key : finding.image.split('/')[3]})
+        })
+        
+        const deleteAllCommand = new DeleteObjectsCommand({
+            Bucket : process.env.BUCKET, 
+            Delete : {Objects : findingImageArray}
+        })
+
+        const s3client = new S3Client({
+            region : process.env.REGION,
+            credentials: {
+                secretAccessKey : process.env.S3_SECRET,
+                accessKeyId : process.env.S3_ACCESS
+            }
+        })
+
+        try{
+            await s3client.send(deleteAllCommand)
+        }catch(e){
+            console.log(`Error Deleting all image objects in s3 Bucket : ${e}`)
+        }
+
         return await prisma.space.delete({
             where: {
                 id : Number(res.get('id')),
                 title : params.spaceName
             }
         }).then(()=>redirect('/'))
+
+        return null
     }
     
 }
