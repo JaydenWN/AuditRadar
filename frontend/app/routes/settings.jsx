@@ -158,7 +158,7 @@ export default function Settings(){
 
     return (
         <Center>
-        <Box component={Stack} miw='50%' >
+        <Box component={Stack} miw={{base : '100%', md : '60%'}} >
 
             <Paper shadow="sm" p={{base : 'lg', md:'xl'}} withBorder >
                 
